@@ -1,9 +1,18 @@
-import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
 
-type Props = {};
+function GuestLayout() {
+    const { token } = useStateContext();
+    // debugger; -> this was to debug the setToke from GuestLayout
 
-function GuestLayout({}: Props) {
-    return <div>GuestLayout</div>;
+    if (token) {
+        return <Navigate to="/" />;
+    }
+    return (
+        <div>
+            <Outlet />
+        </div>
+    );
 }
 
 export default GuestLayout;

@@ -30,6 +30,7 @@ function Login() {
             .catch((err) => {
                 console.log(err);
                 const response = err.response;
+                // 422 catches when the backend doesn't validate user name and password
                 if (response && response.status === 422) {
                     // conditionally set errors as they will be provided from the form if that is the case
                     if (response.data.errors) {
