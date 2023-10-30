@@ -40,7 +40,7 @@ class StockController extends Controller
             'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
             'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
         ];
-        error_log("logging queried data from finhub, creating stock resource...");
+        error_log("logging queried data from finnhub, creating stock resource...");
         error_log(implode(", ", array_keys($stock_data)));
         error_log(implode(", ", $stock_data) . "<br>");
         $stock = Stock::create($stock_data);
