@@ -35,10 +35,10 @@ class StockController extends Controller
         $metric = $data->getMetric();
         $stock_data = [
             'ticker' => $request_data['ticker'],
-            'pe' => $metric['peAnnual'],
-            'debt_to_equity' => $metric['longTermDebt/equityAnnual'],
-            'dividend_yield' => $metric['dividendYieldIndicatedAnnual'],
-            'vs_sp500' => $metric['priceRelativeToS&P50052Week'],
+            'pe' => $metric['peAnnual'] ?? 0.0,
+            'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
+            'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
+            'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
         ];
         error_log("logging queried data from finhub, creating stock resource...");
         error_log(implode(", ", array_keys($stock_data)));
