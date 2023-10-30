@@ -28,7 +28,7 @@ class StockController extends Controller
     public function store(StoreStockRequest $request)
     {
         $request_data = $request->validated();
-        $config = Configuration::getDefaultConfiguration()->setApiKey('token', "ckv51lhr01qq199ilnh0ckv51lhr01qq199ilnhg");
+        $config = Configuration::getDefaultConfiguration()->setApiKey('token', env('FINNHUB_KEY', ""));
         $http_client = new Client();
         $client = new DefaultApi($http_client, $config);
         $data = $client->companyBasicFinancials($request_data['ticker'], 'metric');
