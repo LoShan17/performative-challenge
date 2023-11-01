@@ -130,11 +130,11 @@ function StockForm({}: Props) {
                         <input
                             value={stock.dividend_yield}
                             type="float"
-                            placeholder="debt_to_equity"
+                            placeholder="dividend_yield"
                             onChange={(event) =>
                                 setStock({
                                     ...stock,
-                                    debt_to_equity: event.target.value,
+                                    dividend_yield: event.target.value,
                                 })
                             }
                         />

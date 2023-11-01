@@ -42,7 +42,7 @@ class StockController extends Controller
         ];
         error_log("logging queried data from finnhub, creating stock resource...");
         error_log(implode(", ", array_keys($stock_data)));
-        error_log(implode(", ", $stock_data) . "<br>");
+        error_log(implode(", ", $stock_data));
         $stock = Stock::create($stock_data);
         return response(new StockResource($stock), 201);
     }
@@ -62,6 +62,9 @@ class StockController extends Controller
     {
         $data = $request->validated();
         $stock->update($data);
+        error_log("logging backend query to update stock...");
+        error_log(implode(", ", array_keys($data)));
+        error_log(implode(", ", $data));
         return new StockResource($stock);
     }
 

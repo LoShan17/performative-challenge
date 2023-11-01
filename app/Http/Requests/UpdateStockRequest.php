@@ -11,7 +11,7 @@ class UpdateStockRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,10 @@ class UpdateStockRequest extends FormRequest
     {
         return [
             'ticker' => 'required|string',
+            'pe' => 'required|numeric',
+            'debt_to_equity' => 'required|numeric',
+            'dividend_yield' => 'required|numeric',
+            'vs_sp500' => 'required|numeric',
         ];
     }
 }
