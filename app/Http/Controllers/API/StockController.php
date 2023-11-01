@@ -28,6 +28,7 @@ class StockController extends Controller
     public function store(StoreStockRequest $request)
     {
         $request_data = $request->validated();
+
         $config = Configuration::getDefaultConfiguration()->setApiKey('token', env('FINNHUB_KEY', ""));
         $http_client = new Client();
         $client = new DefaultApi($http_client, $config);
@@ -60,12 +61,37 @@ class StockController extends Controller
      */
     public function update(UpdateStockRequest $request, Stock $stock)
     {
-        $data = $request->validated();
-        $stock->update($data);
-        error_log("logging backend query to update stock...");
-        error_log(implode(", ", array_keys($data)));
-        error_log(implode(", ", $data));
-        return new StockResource($stock);
+
+
+        $request_data = $request->validated();
+
+        if (array_key_exists("use_finnhub", $request_data)) {
+            // if use_finnhub is in the request
+            $config = Configuration::getDefaultConfiguration()->setApiKey('token', env('FINNHUB_KEY', ""));
+            $http_client = new Client();
+            $client = new DefaultApi($http_client, $config);
+            $data = $client->companyBasicFinancials($request_data['ticker'], 'metric');
+            $metric = $data->getMetric();
+            $stock_data = [
+                'ticker' => $request_data['ticker'],
+                'pe' => $metric['peAnnual'] ?? 0.0,
+                'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
+                'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
+                'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
+            ];
+            error_log("logging queried data from finnhub to update");
+            error_log(implode(", ", array_keys($stock_data)));
+            error_log(implode(", ", $stock_data));
+            $stock->update($stock_data);
+            return new StockResource($stock);
+        } else {
+            // simply save what has been provided from the UI
+            $stock->update($request_data);
+            error_log("logging backend query to update stock...");
+            error_log(implode(", ", array_keys($request_data)));
+            error_log(implode(", ", $request_data));
+            return new StockResource($stock);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@ import { useEffect, useState, FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
+import { Form } from "react-bootstrap";
 
 // backend notes
 // 'ticker' => $request_data['ticker'],
@@ -26,6 +27,7 @@ function StockForm({}: Props) {
         debt_to_equity: "",
         dividend_yield: "",
         vs_sp500: "",
+        use_finnhub: true,
     });
     // const { id } = useParams();
     // this is getting all the params from the endpoint call and destructure them into id
@@ -47,6 +49,7 @@ function StockForm({}: Props) {
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (stock.id) {
+            console.log(stock);
             axiosClient
                 .put(`/stocks/${stock.id}`, stock)
                 .then(() => {
@@ -69,6 +72,7 @@ function StockForm({}: Props) {
                     }
                 });
         } else {
+            console.log(stock);
             axiosClient
                 .post(`/stocks`, stock)
                 .then(() => {
@@ -107,7 +111,7 @@ function StockForm({}: Props) {
                     </div>
                 )}
                 {!loading && (
-                    <form onSubmit={onSubmit}>
+                    <Form onSubmit={onSubmit}>
                         <input
                             value={stock.ticker}
                             type="text"
@@ -160,9 +164,25 @@ function StockForm({}: Props) {
                                 })
                             }
                         />
-
+                        <header>
+                            <div className="nowrap">
+                                Look up stock details from FinnHub
+                            </div>
+                            <input
+                                type="checkbox"
+                                name="checkbox"
+                                value="use_finnhub"
+                                onChange={(event) =>
+                                    setStock({
+                                        ...stock,
+                                        use_finnhub: event.target.checked,
+                                    })
+                                }
+                            />
+                        </header>
+                        <br />
                         <button className="btn">Save</button>
-                    </form>
+                    </Form>
                 )}
             </div>
         </>
