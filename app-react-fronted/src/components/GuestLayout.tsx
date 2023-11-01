@@ -3,7 +3,6 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 function GuestLayout() {
     const { token } = useStateContext();
-    // debugger; -> this was to debug the setToke from GuestLayout
 
     if (token) {
         return <Navigate to="/" />;
