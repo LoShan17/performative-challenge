@@ -17,7 +17,8 @@ function StockForm({}: Props) {
     const navigate = useNavigate();
     const { setNotification } = useStateContext();
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState<any | null>(null);
+    null;
     const [stock, setStock] = useState({
         id: null,
         ticker: "",
@@ -60,6 +61,11 @@ function StockForm({}: Props) {
                     if (response && response.status === 422) {
                         console.log(response.data.errors);
                         setErrors(response.data.errors);
+                    } else {
+                        // just rebuild the structure above setting the message
+                        setErrors({
+                            message: [response.data.message],
+                        });
                     }
                 });
         } else {
@@ -77,6 +83,11 @@ function StockForm({}: Props) {
                     if (response && response.status === 422) {
                         console.log(response.data.errors);
                         setErrors(response.data.errors);
+                    } else {
+                        // just rebuild the structure above setting the message
+                        setErrors({
+                            message: [response.data.message],
+                        });
                     }
                 });
         }
@@ -149,6 +160,7 @@ function StockForm({}: Props) {
                                 })
                             }
                         />
+
                         <button className="btn">Save</button>
                     </form>
                 )}
