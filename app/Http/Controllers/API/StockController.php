@@ -11,9 +11,34 @@ use App\Models\Stock;
 use Finnhub\Configuration;
 use Finnhub\Api\DefaultApi;
 use GuzzleHttp\Client;
+use PhpParser\Node\Expr\Cast\String_;
 
 class StockController extends Controller
 {
+    private $finnhub_client;
+    public function __construct()
+    {
+        $config = Configuration::getDefaultConfiguration()->setApiKey('token', env('FINNHUB_KEY', ""));
+        $http_client = new Client();
+        $this->finnhub_client = new DefaultApi($http_client, $config);
+    }
+
+    private function query_finnhub_basic_financials(String $ticker)
+    {
+        $data = $this->finnhub_client->companyBasicFinancials($ticker, 'metric');
+        $metric = $data->getMetric();
+        $stock_data = [
+            'ticker' => $ticker,
+            'pe' => $metric['peAnnual'] ?? 0.0,
+            'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
+            'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
+            'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
+        ];
+        error_log("logging queried data from finnhub:");
+        error_log(implode(", ", array_keys($stock_data)));
+        error_log(implode(", ", $stock_data));
+        return $stock_data;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -28,22 +53,7 @@ class StockController extends Controller
     public function store(StoreStockRequest $request)
     {
         $request_data = $request->validated();
-
-        $config = Configuration::getDefaultConfiguration()->setApiKey('token', env('FINNHUB_KEY', ""));
-        $http_client = new Client();
-        $client = new DefaultApi($http_client, $config);
-        $data = $client->companyBasicFinancials($request_data['ticker'], 'metric');
-        $metric = $data->getMetric();
-        $stock_data = [
-            'ticker' => $request_data['ticker'],
-            'pe' => $metric['peAnnual'] ?? 0.0,
-            'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
-            'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
-            'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
-        ];
-        error_log("logging queried data from finnhub, creating stock resource...");
-        error_log(implode(", ", array_keys($stock_data)));
-        error_log(implode(", ", $stock_data));
+        $stock_data = $this->query_finnhub_basic_financials($request_data['ticker']);
         $stock = Stock::create($stock_data);
         return response(new StockResource($stock), 201);
     }
@@ -67,21 +77,7 @@ class StockController extends Controller
 
         if (array_key_exists("use_finnhub", $request_data)) {
             // if use_finnhub is in the request
-            $config = Configuration::getDefaultConfiguration()->setApiKey('token', env('FINNHUB_KEY', ""));
-            $http_client = new Client();
-            $client = new DefaultApi($http_client, $config);
-            $data = $client->companyBasicFinancials($request_data['ticker'], 'metric');
-            $metric = $data->getMetric();
-            $stock_data = [
-                'ticker' => $request_data['ticker'],
-                'pe' => $metric['peAnnual'] ?? 0.0,
-                'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
-                'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
-                'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
-            ];
-            error_log("logging queried data from finnhub to update");
-            error_log(implode(", ", array_keys($stock_data)));
-            error_log(implode(", ", $stock_data));
+            $stock_data = $this->query_finnhub_basic_financials($request_data['ticker']);
             $stock->update($stock_data);
             return new StockResource($stock);
         } else {
