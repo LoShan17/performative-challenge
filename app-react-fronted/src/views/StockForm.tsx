@@ -119,7 +119,7 @@ function StockForm({}: Props) {
                             onChange={(event) =>
                                 setStock({
                                     ...stock,
-                                    ticker: event.target.value,
+                                    ticker: event.target.value.toUpperCase(),
                                 })
                             }
                         />
