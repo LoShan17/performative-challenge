@@ -3,19 +3,27 @@ import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 
-// backend notes
-// 'ticker' => $request_data['ticker'],
-// 'pe' => $metric['peAnnual'] ?? 0.0,
-// 'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
-// 'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
-// 'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
-
 function Stocks() {
     // it is important to set the type of stocks to Array of any
     // not to get compile error in the HTML below when expanding stock fields
     const [stocks, setStocks] = useState<Array<any>>([]);
+    const [render_stocks, setRenderStocks] = useState<Array<any>>([]);
     const [loading, setLoading] = useState(false);
     const { setNotification } = useStateContext();
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (event: any) => {
+        setSearch(event.target.value);
+        const current_search = event.target.value;
+        console.log(search);
+        console.log(current_search);
+
+        setRenderStocks(
+            stocks.filter((item) =>
+                item.ticker.toLowerCase().includes(current_search.toLowerCase())
+            )
+        );
+    };
 
     useEffect(() => {
         getStocks();
@@ -39,6 +47,7 @@ function Stocks() {
                 {
                     console.log(data);
                     setStocks(data.data);
+                    setRenderStocks(data.data);
                     setLoading(false);
                 }
             })
@@ -57,6 +66,10 @@ function Stocks() {
                 }}
             >
                 <h1>Stocks</h1>
+                <label htmlFor="search">
+                    Search by Ticker:
+                    <input id="search" type="text" onChange={handleSearch} />
+                </label>
                 <Link to="/stocks/new" className="btn-add">
                     Add new
                 </Link>
@@ -86,7 +99,7 @@ function Stocks() {
                     )}
                     {!loading && (
                         <tbody>
-                            {stocks.map((stock) => (
+                            {render_stocks.map((stock) => (
                                 <tr key={stock.id}>
                                     <td>{stock.id}</td>
                                     <td>{stock.ticker}</td>
