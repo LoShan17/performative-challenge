@@ -5,8 +5,10 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
 ## Features Learned
 
 -   Auth/Login layer with middleware Larvel auth layer
+-   CRUD App
 -   `php artisan` commands for scaffolding classes
--   composer and composer.json (Finnhub integration example)
+-   React commands and scaffolding, jest Testing
+-   composer and composer.json (Finnhub integration example and issues)
 
 ## Conclusions
 
