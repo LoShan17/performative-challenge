@@ -116,6 +116,7 @@ function Stocks() {
                     setStocks(data.data);
                     setRenderStocks(data.data);
                     setLoading(false);
+                    // TODO: empty search field
                 }
             })
             .catch(() => {
