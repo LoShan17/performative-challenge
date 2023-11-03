@@ -1,28 +1,39 @@
 import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
 import Stocks from "../views/Stocks";
 import StockForm from "../views/StockForm";
 import { MemoryRouter } from "react-router-dom";
 
+// <MemoryRouter> is necessary as a wrapper of the component
+// or it will throw and error because a Link (needs a Router wrapper) presence in the component
+
 describe("<Stocks />", () => {
-    test("should display the default Stock page", () => {
+    test("check that heading is present in the Stocks page", () => {
         render(
             <MemoryRouter>
                 <StockForm />
             </MemoryRouter>
         );
-        const element = screen.getByRole("checkbox");
-        expect(element).toBeInTheDocument();
+        const heading = screen.getByRole("heading");
+        expect(heading).toBeInTheDocument();
     });
 
-    test("should show error message when all the fields are not entered", async () => {
+    test("chech there is at least 1 column header", () => {
         render(
             <MemoryRouter>
                 <Stocks />
             </MemoryRouter>
         );
-        const buttonElement = screen.getByRole("textbox");
-        userEvent.click(buttonElement);
-        screen.debug();
+        const table = screen.getAllByRole("columnheader");
+        expect(table[0]).toBeInTheDocument();
+    });
+
+    test("check that the serchbox has been displayed", async () => {
+        render(
+            <MemoryRouter>
+                <Stocks />
+            </MemoryRouter>
+        );
+        const textBox = screen.getByRole("textbox");
+        expect(textBox).toBeInTheDocument();
     });
 });
