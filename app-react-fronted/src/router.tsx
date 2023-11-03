@@ -5,7 +5,6 @@ import Stocks from "./views/Stocks";
 import NotFound from "./views/NotFound";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
-import Dashboard from "./views/Dashboard";
 import StockForm from "./views/StockForm";
 
 const router = createBrowserRouter([
@@ -28,10 +27,6 @@ const router = createBrowserRouter([
             {
                 path: "/stocks/:id",
                 element: <StockForm key="stockUpdate" />,
-            },
-            {
-                path: "/dashboard",
-                element: <Dashboard />,
             },
         ],
     },

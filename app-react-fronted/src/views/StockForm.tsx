@@ -4,13 +4,6 @@ import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Form } from "react-bootstrap";
 
-// backend notes
-// 'ticker' => $request_data['ticker'],
-// 'pe' => $metric['peAnnual'] ?? 0.0,
-// 'debt_to_equity' => $metric['longTermDebt/equityAnnual'] ?? 0.0,
-// 'dividend_yield' => $metric['dividendYieldIndicatedAnnual'] ?? 0.0,
-// 'vs_sp500' => $metric['priceRelativeToS&P50052Week'] ?? 0.0,
-
 type Props = {};
 
 function StockForm({}: Props) {
@@ -65,7 +58,7 @@ function StockForm({}: Props) {
                         console.log(response.data.errors);
                         setErrors(response.data.errors);
                     } else {
-                        // just rebuild the structure above setting the message
+                        // Just rebuild the structure above setting the message
                         setErrors({
                             message: [response.data.message],
                         });
@@ -88,7 +81,7 @@ function StockForm({}: Props) {
                         console.log(response.data.errors);
                         setErrors(response.data.errors);
                     } else {
-                        // just rebuild the structure above setting the message
+                        // Just rebuild the structure above setting the message
                         setErrors({
                             message: [response.data.message],
                         });

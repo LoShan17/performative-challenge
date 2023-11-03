@@ -28,7 +28,6 @@ function DefaultLayout() {
     return (
         <div id="defaultLayout">
             <aside>
-                <Link to="/dashboard">DashBoard</Link>
                 <Link to="/stocks">Stocks</Link>
             </aside>
             <div className="content">
