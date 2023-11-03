@@ -33,7 +33,7 @@ function DefaultLayout() {
             </aside>
             <div className="content">
                 <header>
-                    <div>Stock Screener</div>
+                    <h1>Stock Screener</h1>
                     <div>
                         {user.name}
                         <a href="#" onClick={onLogOut} className="btn-logout">

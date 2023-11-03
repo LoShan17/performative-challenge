@@ -21,9 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('/stocks', StockController::class);
 });
 
-// TODO: move back /stocks rout under auth middleware when tested and working
-Route::apiResource('/stocks', StockController::class);
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);

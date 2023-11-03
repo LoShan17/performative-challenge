@@ -19,8 +19,7 @@ const StateContext = createContext<{
 export const ContextProvider = ({ children }: any) => {
     const [user, setUser] = useState({});
     const [notification, _setNotification] = useState("");
-    const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN")); // TODO: useState(localStorage.getItem("ACCESS_TOKEN")), remember this should be the final value, null is for is testing;
-
+    const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
     const setNotification = (notification: string) => {
         _setNotification(notification);
         setTimeout(() => {

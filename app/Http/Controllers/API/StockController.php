@@ -11,7 +11,9 @@ use App\Models\Stock;
 use Finnhub\Configuration;
 use Finnhub\Api\DefaultApi;
 use GuzzleHttp\Client;
-use PhpParser\Node\Expr\Cast\String_;
+use Illuminate\Http\Request;
+
+use function Laravel\Prompts\error;
 
 class StockController extends Controller
 {
@@ -42,9 +44,25 @@ class StockController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return StockResource::collection(Stock::query()->orderBy('id', 'desc')->paginate(10));
+        // $request->query() returns an associative array with keys/values
+        // passed as query parameters
+        $attributes = $request->query();
+        $filtered_attributes = array_filter($attributes, function ($entry) {
+            return ($entry != '');
+        });
+        $dataAttributes = array_map(function ($value, $key) {
+            return $key . ' ' . $value;
+        }, array_values($filtered_attributes), array_keys($filtered_attributes));
+        $query_string = implode(", ", $dataAttributes);
+        error_log($query_string);
+        if ($query_string != '') {
+            return StockResource::collection(Stock::query()->orderByRaw($query_string)->paginate(10));
+        } else {
+            return StockResource::collection(Stock::query()->paginate(10));
+        }
+        // return StockResource::collection(Stock::query()->orderByRaw("id DESC, ticker DESC")->paginate(10));
     }
 
     /**

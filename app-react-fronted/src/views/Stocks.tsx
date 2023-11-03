@@ -3,21 +3,85 @@ import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 
+const columnsNames: any = {
+    id: "ID",
+    ticker: "Ticker",
+    pe: "P/E",
+    debt_to_equity: "Debt to Equity",
+    dividend_yield: "Dividend Yield",
+    vs_sp500: "1 Year vs SP500",
+    created_at: "created at",
+    updated_at: "updated at",
+};
+
+function objectToQueryString(obj: any) {
+    const keys = Object.keys(obj);
+    const keyValuePairs = keys.map((key) => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
+    });
+    return keyValuePairs.join("&");
+}
+
+type HeaderCellProps = {
+    children?: string;
+    column: any | string;
+    sorting: any;
+    sortTable: (newSorting: any) => void;
+};
+
+const HeaderCell = ({ column, sorting, sortTable }: HeaderCellProps) => {
+    const isDescSorting = sorting[column] === "DESC";
+    const isAscSorting = sorting[column] === "ASC";
+    const noSorting = sorting[column] === "";
+    const futureSortingOrder = () => {
+        if (isDescSorting) {
+            return "ASC";
+        } else if (isAscSorting) {
+            return "";
+        } else if (noSorting) {
+            return "DESC";
+        }
+    };
+    return (
+        <th
+            key={columnsNames[column]}
+            onClick={() => sortTable({ column, order: futureSortingOrder() })}
+        >
+            {columnsNames[column]}
+            {isDescSorting && <span>▼</span>}
+            {isAscSorting && <span>▲</span>}
+        </th>
+    );
+};
+
 function Stocks() {
+    const sortTable = (newSorting: any) => {
+        const newFullSorting = columnsSorting;
+        newFullSorting[newSorting.column] = newSorting.order;
+        setColumnsSorting(newFullSorting);
+        getStocks();
+    };
     // it is important to set the type of stocks to Array of any
     // not to get compile error in the HTML below when expanding stock fields
     const [stocks, setStocks] = useState<Array<any>>([]);
     const [render_stocks, setRenderStocks] = useState<Array<any>>([]);
     const [loading, setLoading] = useState(false);
     const { setNotification } = useStateContext();
-    const [search, setSearch] = useState("");
+    const [_, setSearch] = useState("");
+    const [columnsSorting, setColumnsSorting] = useState<any>({
+        id: "DESC",
+        ticker: "",
+        pe: "",
+        debt_to_equity: "",
+        dividend_yield: "",
+        vs_sp500: "",
+        created_at: "",
+        updated_at: "",
+    });
 
     const handleSearch = (event: any) => {
         setSearch(event.target.value);
         const current_search = event.target.value;
-        console.log(search);
-        console.log(current_search);
-
         setRenderStocks(
             stocks.filter((item) =>
                 item.ticker.toLowerCase().includes(current_search.toLowerCase())
@@ -41,11 +105,14 @@ function Stocks() {
 
     const getStocks = () => {
         setLoading(true);
+        // console.log(columnsSorting);
+        const string_params = objectToQueryString(columnsSorting);
+        // console.log(string_params);
         axiosClient
-            .get("/stocks")
+            .get("/stocks?" + string_params)
             .then(({ data }) => {
                 {
-                    console.log(data);
+                    // console.log(data);
                     setStocks(data.data);
                     setRenderStocks(data.data);
                     setLoading(false);
@@ -78,14 +145,18 @@ function Stocks() {
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Ticker</th>
-                            <th>P/E</th>
-                            <th>Debt to Equity</th>
-                            <th>Dividend Yield</th>
-                            <th>1 Year vs SP500</th>
-                            <th>created at</th>
-                            <th>updated at</th>
+                            {Object.keys(columnsNames).map(
+                                (column_key: any) => (
+                                    <HeaderCell
+                                        key={column_key}
+                                        column={column_key}
+                                        sorting={columnsSorting}
+                                        sortTable={sortTable}
+                                    >
+                                        {column_key}
+                                    </HeaderCell>
+                                )
+                            )}
                         </tr>
                     </thead>
                     {loading && (
