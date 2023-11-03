@@ -145,18 +145,14 @@ function Stocks() {
                 <table>
                     <thead>
                         <tr>
-                            {Object.keys(columnsNames).map(
-                                (column_key: any) => (
-                                    <HeaderCell
-                                        key={column_key}
-                                        column={column_key}
-                                        sorting={columnsSorting}
-                                        sortTable={sortTable}
-                                    >
-                                        {column_key}
-                                    </HeaderCell>
-                                )
-                            )}
+                            {Object.keys(columnsNames).map((column: any) => (
+                                <HeaderCell
+                                    key={column}
+                                    column={column}
+                                    sorting={columnsSorting}
+                                    sortTable={sortTable}
+                                ></HeaderCell>
+                            ))}
                         </tr>
                     </thead>
                     {loading && (
