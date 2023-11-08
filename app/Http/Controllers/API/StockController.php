@@ -41,6 +41,7 @@ class StockController extends Controller
         error_log(implode(", ", $stock_data));
         return $stock_data;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -62,7 +63,6 @@ class StockController extends Controller
         } else {
             return StockResource::collection(Stock::query()->paginate(10));
         }
-        // return StockResource::collection(Stock::query()->orderByRaw("id DESC, ticker DESC")->paginate(10));
     }
 
     /**

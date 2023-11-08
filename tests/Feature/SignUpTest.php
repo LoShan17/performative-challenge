@@ -21,6 +21,5 @@ class SignUpTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseCount('users', 1);
-        //$this->assertAuthenticated();
     }
 }
