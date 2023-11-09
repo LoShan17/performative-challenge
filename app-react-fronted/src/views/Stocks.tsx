@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -79,6 +79,8 @@ function Stocks() {
         updated_at: "",
     });
 
+    const formRef = useRef<HTMLFormElement>(null);
+
     const handleSearch = (event: any) => {
         setSearch(event.target.value);
         const current_search = event.target.value;
@@ -115,8 +117,8 @@ function Stocks() {
                     // console.log(data);
                     setStocks(data.data);
                     setRenderStocks(data.data);
+                    formRef.current && formRef.current.reset();
                     setLoading(false);
-                    // TODO: empty search field
                 }
             })
             .catch(() => {
@@ -136,7 +138,13 @@ function Stocks() {
                 <h1>Stocks</h1>
                 <label htmlFor="search">
                     Search by Ticker:
-                    <input id="search" type="text" onChange={handleSearch} />
+                    <form ref={formRef}>
+                        <input
+                            id="search"
+                            type="text"
+                            onChange={handleSearch}
+                        />
+                    </form>
                 </label>
                 <Link to="/stocks/new" className="btn-add">
                     Add new
