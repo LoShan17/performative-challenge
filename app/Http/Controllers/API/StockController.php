@@ -59,9 +59,11 @@ class StockController extends Controller
         $query_string = implode(", ", $dataAttributes);
         error_log($query_string);
         if ($query_string != '') {
-            return StockResource::collection(Stock::query()->orderByRaw($query_string)->paginate(10));
+            return StockResource::collection(Stock::query()->orderByRaw($query_string)->get());
         } else {
-            return StockResource::collection(Stock::query()->paginate(10));
+            // return StockResource::collection(Stock::query()->paginate(10));
+            // note for pagination if worth implementing later
+            return StockResource::collection(Stock::query()->get());
         }
     }
 
