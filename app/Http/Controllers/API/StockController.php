@@ -71,8 +71,13 @@ class StockController extends Controller
     public function store(StoreStockRequest $request)
     {
         $request_data = $request->validated();
-        $stock_data = $this->query_finnhub_basic_financials($request_data['ticker']);
-        $stock = Stock::create($stock_data);
+
+        if ($request_data["use_finnhub"]) {
+            $stock_data = $this->query_finnhub_basic_financials($request_data['ticker']);
+            $stock = Stock::create($stock_data);
+        } else {
+            $stock = Stock::create($request_data);
+        }
         return response(new StockResource($stock), 201);
     }
 
@@ -93,19 +98,15 @@ class StockController extends Controller
 
         $request_data = $request->validated();
 
-        if (array_key_exists("use_finnhub", $request_data)) {
-            // if use_finnhub is in the request
+        if ($request_data["use_finnhub"]) {
+            // if use_finnhub is in the request requery everything and update the stock
             $stock_data = $this->query_finnhub_basic_financials($request_data['ticker']);
             $stock->update($stock_data);
-            return new StockResource($stock);
         } else {
-            // simply save what has been provided from the UI
+            // simply update with what has been provided from the UI
             $stock->update($request_data);
-            error_log("logging backend query to update stock...");
-            error_log(implode(", ", array_keys($request_data)));
-            error_log(implode(", ", $request_data));
-            return new StockResource($stock);
         }
+        return response(new StockResource($stock), 201);
     }
 
     /**

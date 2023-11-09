@@ -27,7 +27,7 @@ class UpdateStockRequest extends FormRequest
             'debt_to_equity' => 'required|numeric',
             'dividend_yield' => 'required|numeric',
             'vs_sp500' => 'required|numeric',
-            'use_finnhub' => 'boolean'
+            'use_finnhub' => 'required|boolean'
         ];
     }
 }

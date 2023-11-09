@@ -12,15 +12,14 @@ function StockForm({}: Props) {
     const { setNotification } = useStateContext();
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<any | null>(null);
-    null;
     const [stock, setStock] = useState({
         id: null,
         ticker: "",
-        pe: "",
-        debt_to_equity: "",
-        dividend_yield: "",
-        vs_sp500: "",
-        use_finnhub: true,
+        pe: 0,
+        debt_to_equity: 0,
+        dividend_yield: 0,
+        vs_sp500: 0,
+        use_finnhub: false,
     });
     // const { id } = useParams();
     // this is getting all the params from the endpoint call and destructure them into id
@@ -33,7 +32,17 @@ function StockForm({}: Props) {
                 .get(`/stocks/${id}`)
                 .then(({ data }) => {
                     setLoading(false);
-                    setStock(data);
+                    // this has to be updated this way to guarantee
+                    // use_finhub field to be populated
+                    setStock({
+                        ...stock,
+                        id: data.id,
+                        ticker: data.ticker,
+                        pe: data.pe,
+                        debt_to_equity: data.debt_to_equity,
+                        dividend_yield: data.dividend_yield,
+                        vs_sp500: data.vs_sp500,
+                    });
                 })
                 .catch(() => setLoading(false));
         }, []);

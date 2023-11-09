@@ -23,6 +23,11 @@ class StoreStockRequest extends FormRequest
     {
         return [
             'ticker' => 'required|string',
+            'pe' => 'required|numeric',
+            'debt_to_equity' => 'required|numeric',
+            'dividend_yield' => 'required|numeric',
+            'vs_sp500' => 'required|numeric',
+            'use_finnhub' => 'required|boolean'
         ];
     }
 }
