@@ -127,42 +127,45 @@ function StockForm({}: Props) {
                         />
                         <input
                             value={stock.pe}
-                            type="float"
+                            type="number"
                             placeholder="pe"
                             onChange={(event) =>
-                                setStock({ ...stock, pe: event.target.value })
+                                setStock({
+                                    ...stock,
+                                    pe: Number(event.target.value),
+                                })
                             }
                         />
                         <input
                             value={stock.debt_to_equity}
-                            type="float"
+                            type="number"
                             placeholder="debt_to_equity"
                             onChange={(event) =>
                                 setStock({
                                     ...stock,
-                                    debt_to_equity: event.target.value,
+                                    debt_to_equity: Number(event.target.value),
                                 })
                             }
                         />
                         <input
                             value={stock.dividend_yield}
-                            type="float"
+                            type="number"
                             placeholder="dividend_yield"
                             onChange={(event) =>
                                 setStock({
                                     ...stock,
-                                    dividend_yield: event.target.value,
+                                    dividend_yield: Number(event.target.value),
                                 })
                             }
                         />
                         <input
                             value={stock.vs_sp500}
-                            type="float"
+                            type="number"
                             placeholder="vs_sp500"
                             onChange={(event) =>
                                 setStock({
                                     ...stock,
-                                    vs_sp500: event.target.value,
+                                    vs_sp500: Number(event.target.value),
                                 })
                             }
                         />

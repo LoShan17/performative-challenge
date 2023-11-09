@@ -8,8 +8,8 @@ const columnsNames: any = {
     ticker: "Ticker",
     pe: "P/E",
     debt_to_equity: "Debt to Equity",
-    dividend_yield: "Dividend Yield",
-    vs_sp500: "1 Year vs SP500",
+    dividend_yield: "Dividend Yield %",
+    vs_sp500: "1 Year vs SP500 %",
     created_at: "created at",
     updated_at: "updated at",
 };
