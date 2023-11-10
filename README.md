@@ -6,9 +6,16 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
 
 -   `git clone` the repo locally
 -   inside root folder:
-    one off `php artisan migrate` to create the sqlite db from the models
-    and then`php artisan serve` to start the backend server
--   inside /app-react-frontend, `npm run dev` to start the frontend server
+    -   install dependencies with `composer install`
+    -   create and .env file from the .env.example
+    -   set FINNHUB_KEY=<"insert your Finnhub key here after creation"> on your .env file (this can be obtained from https://finnhub.io/ )
+    -   one off `php artisan migrate` to create the sqlite db from the models
+    -   and then`php artisan serve` to start the backend server
+-   inside /app-react-frontend:
+    -   create and .env file from the .env.example
+    -   install dependencies with `npm install`
+    -   `npm run dev` to start the frontend server
+    -   test the up locally on http://localhost:5173/
 
 ## Features Learned
 
