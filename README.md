@@ -90,6 +90,6 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
 
 ## Conclusions
 
--   React is a great frontend framework overall.
+-   React is a great frontend framework overall, I still have to do some study/reaserch on dynamic sorting, filtering and pagination, depending on use case.
 -   I am really not sure about PHP as a backend when it comes to data/financial applications.
     The main issue is that data/financial package availability is low and often not properly maintained.
