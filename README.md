@@ -13,19 +13,19 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
 ## Features Learned
 
 -   CRUD App (MVC)
-    Laravel Framework - 10.28.0
-    React - 18.2.0
+    -   Laravel Framework - 10.28.0
+    -   React - 18.2.0
 -   Signup/Login with middleware auth Larvel layer from scaffolding of `laravel new`
 -   Commands for scaffolding classes: via: `php artisan`
-    `php artisan make:migration` <migration_name>
-    `php artisan make:model` <model_name> --seed (to add seeder class)
-    `php artisan make:controller` <controller_name> --model=<model_name> --resource --requests --api
-    `php artisan make:resource` <resource_name>
+    -   `php artisan make:migration` <migration_name>
+    -   `php artisan make:model` <model_name> --seed (to add seeder class)
+    -   `php artisan make:controller` <controller_name> --model=<model_name> --resource --requests --api
+    -   `php artisan make:resource` <resource_name>
 -   React commands and scaffolding setup:
-    `npm create vite`
-    cd into fronted <project_name>
-    do as many as `npm install <package_name> -S` needed
-    and then do `npm install`
+    -   `npm create vite`
+    -   cd into fronted <project_name>
+    -   do as many as `npm install <package_name> -S` needed
+    -   and then do `npm install`
 -   Finnhub Integration:
     After considering a few financial data APIs, I wanted to try Finnhub: https://finnhub.io/ .
     It has generous free tiers on basic data endpoints and a wrapper api for several programming languages, (including PHP!, which is not that common...)
@@ -47,17 +47,19 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
     and finally... `composer install`
 
 -   Jest Testing stup:
-    `npm install @testing-library/jest-dom @testing-library/react @testing-library/user-event jest jest-environment-jsdom vitest --save-dev`
 
-    `npm i --save-dev @types/jest`
+    -   `npm install @testing-library/jest-dom @testing-library/react @testing-library/user-event jest jest-environment-jsdom vitest --save-dev`
 
-    -   changes to tsconfig.json
-        add "types": ["node", "jest", "@testing-library/jest-dom"], under "compilerOptions"
+    -   `npm i --save-dev @types/jest`
 
-    -   changes to setuptest.ts
+    -   changes to tsconfig.json:
+        "types": ["node", "jest", "@testing-library/jest-dom"], under "compilerOptions"
+
+    -   changes to setuptest.ts:
         import "@testing-library/jest-dom";
 
-    *   chnages to vite.config.ts (with defineConfig imported from vitest/config instead of vite)
+    *   changes to vite.config.ts:
+        with defineConfig imported from vitest/config (instead of just vite)
 
     import { defineConfig } from 'vitest/config'
     import react from '@vitejs/plugin-react'
