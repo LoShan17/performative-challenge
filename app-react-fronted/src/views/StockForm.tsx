@@ -125,7 +125,9 @@ function StockForm({}: Props) {
                                 })
                             }
                         />
+                        <label htmlFor="pe">P/E</label>
                         <input
+                            id="pe"
                             value={stock.pe}
                             type="number"
                             placeholder="pe"
@@ -136,7 +138,9 @@ function StockForm({}: Props) {
                                 })
                             }
                         />
+                        <label htmlFor="debt_to_equity">Debt to Equity</label>
                         <input
+                            id="debt_to_equity"
                             value={stock.debt_to_equity}
                             type="number"
                             placeholder="debt_to_equity"
@@ -147,7 +151,9 @@ function StockForm({}: Props) {
                                 })
                             }
                         />
+                        <label htmlFor="dividend_yield">Dividend Yield</label>
                         <input
+                            id="dividend_yield"
                             value={stock.dividend_yield}
                             type="number"
                             placeholder="dividend_yield"
@@ -158,7 +164,9 @@ function StockForm({}: Props) {
                                 })
                             }
                         />
+                        <label htmlFor="vs_sp_500">vs SP 500</label>
                         <input
+                            id="vs_sp_500"
                             value={stock.vs_sp500}
                             type="number"
                             placeholder="vs_sp500"
