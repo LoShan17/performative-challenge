@@ -13,7 +13,6 @@ use Finnhub\Api\DefaultApi;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
-use function Laravel\Prompts\error;
 
 class StockController extends Controller
 {
