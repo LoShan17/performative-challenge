@@ -2,6 +2,13 @@
 
 Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.pdf"
 
+## Covered in the video:
+
+-   Quick app Demo
+-   MVC design overview and how it maps to Laravel/React in the app.
+-   Going through StockController.php as it is probably the most interesting backend component and the one with the 3rd party Finnhub integration
+-   Conclusions
+
 ## To run locally
 
 -   `git clone` the repo locally
@@ -15,7 +22,7 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
     -   create and .env file from the .env.example
     -   install dependencies with `npm install`
     -   `npm run dev` to start the frontend server
-    -   test the up locally on http://localhost:5173/
+    -   test the app locally on http://localhost:5173/
 
 ## Features Learned
 
@@ -36,9 +43,9 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
 -   Finnhub Integration:
     After considering a few financial data APIs, I wanted to try Finnhub: https://finnhub.io/ .
     It has generous free tiers on basic data endpoints and a wrapper api for several programming languages, (including PHP!, which is not that common...)
-    After trying in 5 minutes in python successfully, I tried to integrate it with Laravel backend and things strated to go wrong. Surprisingly the wrapper API is still dependent on an old version of GuzzleHttp, that created a chain of conflicts just adding the package with: `composer require finnhub/client:1.1.17`
+    After trying in 5 minutes in python successfully, I tried to integrate it with Laravel backend and things started to go wrong. Surprisingly the wrapper API is still dependent on an old version of GuzzleHttp, that created a chain of conflicts just adding the package with: `composer require finnhub/client:1.1.17`
 
-    I found a few people running into the same blocker and decided to point to one of their forks. Surprisingly even though some PR were raised to update the wrapper they were never merged and the PHP wrapper seems abandoned.
+    Googling, I found a few people running into the same blocker and decided to point to one of their forks. Surprisingly even though some PR were raised to update the wrapper on master, they were never merged and the PHP wrapper seems not maintained.
     manual changes to composer.json as below:
 
     "repositories" : [{"type": "git", "url": "https://github.com/dorqa95/finnhub-php"}],
@@ -81,7 +88,7 @@ Creating a full stack Laravel/React CRUD app as detailed in "Performativ-Trial.p
     }
     })
 
-    remember to wrap renders inside tests in some router from "react-router-dom"; like </MemoryRouter>
+    remember to wrap renders inside tests in some router from "react-router-dom" like "MemoryRouter"
 
     finally inside /app-react-frontend: `npm run test` to keep the tests running in the background on another shell
 
